@@ -1,0 +1,27 @@
+version: '3'
+services:
+  flask_app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - MARIADB_USER=<your-username>
+      - MARIADB_PASSWORD=<your-password>
+      - MARIADB_SERVER=mariadb
+      - MARIADB_DB=<your-database>
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: <your-root-password>
+      MYSQL_DATABASE: <your-database>
+      MYSQL_USER: <your-username>
+      MYSQL_PASSWORD: <your-password>
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
