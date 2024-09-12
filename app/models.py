@@ -11,8 +11,6 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     coursename = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200))
-    date = db.Column(db.Date, nullable=False)
-    time = db.Column(db.String(10), nullable=False)
 
 class Enrollment(db.Model):
     id = db.Column(db.Integer, primary_key=True)

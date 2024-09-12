@@ -19,4 +19,34 @@ def login():
 @jwt_required()
 def handle_courses():
     current_user = get_jwt_identity()
-    # (Gleiche Logik wie vorher)
+    if request.method == 'POST':
+        if current_user['role'] != 'admin':
+            return jsonify({'message': 'Admin access required!'}), 403
+        
+        data = request.get_json()
+        new_course = Course(
+            coursename=data['coursename'],
+            description=data['description']
+        )
+        db.session.add(new_course)
+        db.session.commit()
+        return jsonify({'message': 'Course created successfully!'})
+    
+    courses = Course.query.all()
+    return jsonify([{'id': c.id, 'coursename': c.coursename, 'description': c.description} for c in courses])
+
+@api.route('/courses/<int:course_id>/enroll', methods=['POST'])
+@jwt_required()
+def enroll(course_id):
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user['username']).first()
+    course = Course.query.get(course_id)
+    
+    if not course:
+        return jsonify({'message': 'Course not found'}), 404
+    
+    enrollment = Enrollment(user_id=user.id, course_id=course.id)
+    db.session.add(enrollment)
+    db.session.commit()
+    
+    return jsonify({'message': f'Enrolled in course {course.coursename} successfully!'})

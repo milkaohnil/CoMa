@@ -3,5 +3,5 @@ Flask-JWT-Extended
 Flask-SQLAlchemy
 Flask-Bcrypt
 Flask-Login
+Flask-WTF
 pymysql
-flask_wtf
