@@ -4,22 +4,21 @@ services:
     build: .
     ports:
       - "5000:5000"
-    command: ./startup.sh
-    restart: unless-stopped
     environment:
-      - FLASK_APP=coma.py
-      - FLASK_ENV=development
-      - MARIADB_USER=sa-coma
-      - MARIADB_PASSWORD_FILE=./secrets/db_user_pwd.txt
+      - FLASK_ENV=production
+      - MARIADB_USER=root
+      - MARIADB_PASSWORD=Flask
       - MARIADB_SERVER=mariadb
       - MARIADB_DB=coma
+    depends_on:
+      - mariadb
 
   mariadb:
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: Flask
       MYSQL_DATABASE: coma
-      MYSQL_USER: sa-coma
+      MYSQL_USER: root
       MYSQL_PASSWORD: Flask
     ports:
       - "3306:3306"
