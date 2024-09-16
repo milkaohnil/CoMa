@@ -29,4 +29,4 @@ ENV FLASK_ENV=production
 EXPOSE 5000
 
 # Starte die Flask App
-CMD ["/bin/sh", "-c", "/app/startup.sh && flask run --host=0.0.0.0"]
+CMD ["/bin/sh", "-c", "flask run --host=0.0.0.0"]
